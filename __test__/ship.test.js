@@ -1,12 +1,13 @@
-import { ship } from '../src/ship';
+import { createShip } from '../src/createShip';
 
 it('Create a carrier', () => {
   const expected = {
     size: 5,
     hits: 0,
     isSunk: false,
+    hit: expect.any(Function)
   };
-  const actual = ship('carrier');
+  const actual = createShip('carrier');
   expect(actual).toEqual(expected);
 });
 
@@ -15,8 +16,9 @@ it('Create a Battleship', () => {
     size: 4,
     hits: 0,
     isSunk: false,
+    hit: expect.any(Function)
   };
-  const actual = ship('battleship');
+  const actual = createShip('battleship');
   expect(actual).toEqual(expected);
 });
 
@@ -25,8 +27,9 @@ it('Create a cruiser', () => {
     size: 3,
     hits: 0,
     isSunk: false,
+    hit: expect.any(Function)
   };
-  const actual = ship('cruiser');
+  const actual = createShip('cruiser');
   expect(actual).toEqual(expected);
 });
 
@@ -35,8 +38,9 @@ it('Create a submarine', () => {
     size: 3,
     hits: 0,
     isSunk: false,
+    hit: expect.any(Function)
   };
-  const actual = ship('submarine');
+  const actual = createShip('submarine');
   expect(actual).toEqual(expected);
 });
 
@@ -45,7 +49,23 @@ it('Create a destroyer', () => {
     size: 2,
     hits: 0,
     isSunk: false,
+    hit: expect.any(Function)
   };
-  const actual = ship('destroyer');
+  const actual = createShip('destroyer');
   expect(actual).toEqual(expected);
 });
+
+it('Sink a destroyer', () => {
+  const expected = {
+    size: 2,
+    hits: 2,
+    isSunk: true,
+    hit: expect.any(Function)
+  };
+  const actual = createShip('destroyer');
+  actual.hit()
+  actual.hit()
+  expect(actual).toEqual(expected);
+});
+
+
