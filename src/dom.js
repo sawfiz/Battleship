@@ -7,7 +7,7 @@ function updateBoard(boardEl, board) {
       const cellEl = createElement('div', ['cell'], {}, '');
       boardEl.appendChild(cellEl);
       if (board[i][j].hasShip) {
-        cellEl.innerText = 'S';
+        cellEl.innerText = board[i][j].ship.type[0];
       }
       if (board[i][j].isBombed) {
         const bombEl = createElement('div', ['bombed']);

@@ -38,22 +38,31 @@ export const GameBoard = () => {
     const ship = createShip(type);
     const size = ship.size;
 
-    if (direction === 'horizontal' && col + size > BOARDSIZE)
-      throw new Error('Invalid col to place a ship');
-    if (direction === 'vertical' && row + size > BOARDSIZE)
-      throw new Error('Invalid row to place a ship');
+    if (direction === 'horizontal' && col + size > BOARDSIZE) return false;
+    if (direction === 'vertical' && row + size > BOARDSIZE) return false;
 
     if (direction === 'vertical') {
+      for (let i = 0; i < size; i++) {
+        if (board[row + i][col].hasShip) {
+          return false;
+        }
+      }
       for (let i = 0; i < size; i++) {
         board[row + i][col].placeShip(ship);
       }
     } else {
       if (direction === 'horizontal') {
         for (let i = 0; i < size; i++) {
+          if (board[row][col + i].hasShip) {
+            return false;
+          }
+        }
+        for (let i = 0; i < size; i++) {
           board[row][col + i].placeShip(ship);
         }
       }
     }
+    return true;
   };
 
   function revealShip(ship) {

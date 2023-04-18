@@ -1,13 +1,26 @@
 import { Player } from '../src/players';
 import { updateDisplay } from './dom';
 
+function getRandomNum() {
+  return Math.floor(Math.random() * 10);
+}
+
+function placeShipRandom(gameBoard, type) {
+  let row, col, direction;
+  do {
+     row = getRandomNum();
+     col = getRandomNum();
+     direction = Math.random() > 0.5 ? 'horizontal' : 'vertical';
+  } while (!gameBoard.placeShip(type, row, col, direction));
+}
+
 function placeFleet(gameBoard) {
   gameBoard.initBoard();
-  gameBoard.placeShip('carrier', 0, 0, 'horizontal');
-  gameBoard.placeShip('battleship', 1, 0, 'horizontal');
-  gameBoard.placeShip('cruiser', 2, 0, 'horizontal');
-  gameBoard.placeShip('submarine', 3, 0, 'horizontal');
-  gameBoard.placeShip('destroyer', 4, 0, 'horizontal');
+  placeShipRandom(gameBoard, 'carrier');
+  placeShipRandom(gameBoard, 'battleship');
+  placeShipRandom(gameBoard, 'cruiser');
+  placeShipRandom(gameBoard, 'submarine');
+  placeShipRandom(gameBoard, 'destroyer');
 }
 
 export const game = () => {
@@ -20,7 +33,7 @@ export const game = () => {
   human.gameBoard.printBoard();
   computer.gameBoard.printBoard();
 
-  human.gameBoard.placeBomb(0,0)
-  human.gameBoard.placeBomb(0,5)
-  updateDisplay(human, computer)
+  human.gameBoard.placeBomb(0, 0);
+  human.gameBoard.placeBomb(0, 5);
+  updateDisplay(human, computer);
 };
