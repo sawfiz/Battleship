@@ -1,13 +1,13 @@
-const sizes = {
-  carrier: 5,
-  battleship: 4,
-  cruiser: 3,
-  submarine: 3,
-  destroyer: 2,
+const FLEET = {
+  carrier: { size: 5 },
+  battleship: { size: 4 },
+  cruiser: { size: 3 },
+  submarine: { size: 3 },
+  destroyer: { size: 2 },
 };
 
 export const createShip = (type) => {
-  const size = sizes[type];
+  const size = FLEET[type].size;
   let hits = 0;
   let isSunk = false;
 
@@ -17,13 +17,14 @@ export const createShip = (type) => {
   };
 
   return {
+    type,
     size: size,
-    hit,
     get hits() {
       return hits;
     },
     get isSunk() {
       return isSunk;
     },
+    hit,
   };
 };

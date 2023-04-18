@@ -2,6 +2,7 @@ import { createShip } from '../src/createShip';
 
 it('Create a carrier', () => {
   const expected = {
+    type: 'carrier',
     size: 5,
     hits: 0,
     isSunk: false,
@@ -13,6 +14,7 @@ it('Create a carrier', () => {
 
 it('Create a Battleship', () => {
   const expected = {
+    type: 'battleship',
     size: 4,
     hits: 0,
     isSunk: false,
@@ -24,6 +26,7 @@ it('Create a Battleship', () => {
 
 it('Create a cruiser', () => {
   const expected = {
+    type: 'cruiser',
     size: 3,
     hits: 0,
     isSunk: false,
@@ -35,6 +38,7 @@ it('Create a cruiser', () => {
 
 it('Create a submarine', () => {
   const expected = {
+    type: 'submarine',
     size: 3,
     hits: 0,
     isSunk: false,
@@ -46,6 +50,7 @@ it('Create a submarine', () => {
 
 it('Create a destroyer', () => {
   const expected = {
+    type: 'destroyer',
     size: 2,
     hits: 0,
     isSunk: false,
@@ -57,6 +62,7 @@ it('Create a destroyer', () => {
 
 it('Sink a destroyer', () => {
   const expected = {
+    type: 'destroyer',
     size: 2,
     hits: 2,
     isSunk: true,

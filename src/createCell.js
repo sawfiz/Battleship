@@ -1,9 +1,11 @@
 export const Cell = () => {
+  let ship = null;
   let hasShip = false;
   let isBombed = false;
 
-  const placeShip = () => {
+  const placeShip = (obj) => {
     hasShip = true;
+    ship = obj;
   };
 
   const attack = () => {
@@ -11,10 +13,12 @@ export const Cell = () => {
   };
 
   return {
+    get ship() {
+      return ship;
+    },
     get hasShip() {
       return hasShip;
     },
-
     get isBombed() {
       return isBombed;
     },
