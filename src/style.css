@@ -1,10 +1,75 @@
 * {
   margin: 0;
   padding: 0;
-  border: 1px solid red;
   box-sizing: border-box;
+}
+
+body {
+  height: 100vh;
+  display: grid;
+  grid-template-rows: 100px auto 20px;
 }
 
 h1 {
   color: red;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+main {
+  border: 1px solid red;
+  display: grid;
+  grid-template-columns: 3fr 1fr 3fr 1fr;
+}
+
+.computer-fleet {
+  border: 1px solid red;
+}
+
+.computer-board-container, .human-board-container {
+  border: 1px solid red;
+  display: flex;
+  justify-content: center;
+  align-items: center; 
+}
+
+.human-fleet {
+  border: 1px solid red;
+}
+
+.board {
+  display: grid;
+  grid-template-rows: repeat(10, 1fr);
+  grid-template-columns: repeat(10, 1fr);
+  gap: 1px;
+}
+
+.cell {
+  background-color: blue;
+  width: 3vw;
+  height: 3vw;
+  display: flex;
+  justify-content: center;
+  align-items: center; 
+}
+
+.bombed {
+  width: 80%;
+  height: 80%;
+  border-radius: 50%;
+}
+
+.missed {
+  background-color: white;
+}
+
+.hit {
+  background-color: red;
+}
+
+footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

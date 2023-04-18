@@ -1,21 +1,26 @@
 import { Player } from '../src/players';
+import { updateDisplay } from './dom';
 
-function playFleet(gameBoard) {
+function placeFleet(gameBoard) {
   gameBoard.initBoard();
   gameBoard.placeShip('carrier', 0, 0, 'horizontal');
-  gameBoard.placeShip('battelship', 1, 0, 'horizontal');
+  gameBoard.placeShip('battleship', 1, 0, 'horizontal');
   gameBoard.placeShip('cruiser', 2, 0, 'horizontal');
   gameBoard.placeShip('submarine', 3, 0, 'horizontal');
   gameBoard.placeShip('destroyer', 4, 0, 'horizontal');
 }
 
 export const game = () => {
-  const Player1 = Player('Tom', 'human');
-  const Player2 = Player('Jerry', 'computer');
+  const human = Player('Tom', 'human');
+  const computer = Player('Jerry', 'computer');
 
-  playFleet(Player1.gameBoard);
-  playFleet(Player2.gameBoard);
+  placeFleet(human.gameBoard);
+  placeFleet(computer.gameBoard);
 
-  Player1.gameBoard.printBoard();
-  Player2.gameBoard.printBoard();
+  human.gameBoard.printBoard();
+  computer.gameBoard.printBoard();
+
+  human.gameBoard.placeBomb(0,0)
+  human.gameBoard.placeBomb(0,5)
+  updateDisplay(human, computer)
 };
