@@ -16,7 +16,7 @@ function updateBoard(boardEl, board) {
       }
       if (board[i][j].isBombed) {
         cellEl.style.pointerEvents = 'none';
-        cellEl.style.cursor = 'not-allowed';
+        // cellEl.style.cursor = 'not-allowed';
    
         const bombEl = createElement('div', ['bombed']);
         cellEl.appendChild(bombEl);

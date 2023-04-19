@@ -1,10 +1,12 @@
 import { Player } from '../src/players';
 import { updateDisplay } from './dom';
 
+// Generates a random number 0-9
 function getRandomNum() {
   return Math.floor(Math.random() * 10);
 }
 
+// Place a ship at a random location with a random direction
 function placeShipRandom(gameBoard, type) {
   let row, col, direction;
   do {
@@ -14,6 +16,7 @@ function placeShipRandom(gameBoard, type) {
   } while (!gameBoard.placeShip(type, row, col, direction));
 }
 
+// Place all 5 ships on an empty board
 function placeFleet(gameBoard) {
   gameBoard.initBoard();
   placeShipRandom(gameBoard, 'carrier');
@@ -27,21 +30,30 @@ export const game = () => {
   const human = Player('Tom', 'human');
   const computer = Player('Jerry', 'computer');
 
+  // Randomly places ships on the human board
   placeFleet(human.gameBoard);
+  // Randomly places ships on the computer board
   placeFleet(computer.gameBoard);
 
   updateDisplay(human, computer);
 
   // Wait for human player to go first
-  // Human player plays bombs computer's board
+  // Human player places bombs onto computer's board
   const computerBoardEl = document.querySelector('#computer-board');
   computerBoardEl.addEventListener('click', (e) => {
+    // Check if a cell is clicked on
+    // Cells that have been clicked on have `pointerEvents = none`
+    // When those cells are click, the class of the target is the board, not cell
     if (e.target.classList.contains('cell')) {
+      // Retrieve the row and col from the element's dataset
+      // These were set when these cells are created in dom.js
       const { row } = e.target.dataset;
       const { col } = e.target.dataset;
 
+      // This method returns ture after placing the bomb
       if (computer.gameBoard.placeBomb(row, col)) {
         updateDisplay(human, computer);
+        // Check if it is the winning move
         if (computer.gameBoard.isGameOver()) {
           alert('Game Over, you won!')
         }
@@ -49,11 +61,11 @@ export const game = () => {
         // Computer bombs the human player board
         human.makeMove();
         updateDisplay(human, computer);
+        // Check if it is the winning move
         if (human.gameBoard.isGameOver()) {
           alert('Game Over, you lost!')
         }
       }
     }
-
   });
 };
