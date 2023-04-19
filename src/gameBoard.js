@@ -65,35 +65,28 @@ export const GameBoard = () => {
     return true;
   };
 
-  function revealShip(ship) {
-    console.log(`${ship.type} is sunk`);
-  }
-
   function isGameOver() {
-    // let gameOver = true;
-    // for (const ship of FLEET) {
-    //   gameOver = gameOver && ship.isSunk;
-    // }
-    // return gameOver;
+    const count = board.reduce((accumulator, currentValue) => {
+      return (
+        accumulator +
+        currentValue.filter((cell) => cell.isBombed && cell.hasShip).length
+      );
+    }, 0);
+    console.log(count);
+    if (count >= 17) return true;
+    return false;
   }
 
   const placeBomb = (row, col) => {
     if (board[row][col].isBombed) {
-      throw new Error('This location has already been bombed');
+      return false;
     } else {
       board[row][col].attack();
       if (board[row][col].hasShip) {
         const ship = board[row][col].ship;
         ship.hit();
-        if (ship.isSunk) {
-          revealShip(ship);
-          if (isGameOver()) {
-            isGameOver();
-          }
-        }
-        return true;
       }
-      return false;
+      return true;
     }
   };
 
@@ -105,5 +98,6 @@ export const GameBoard = () => {
     printBoard,
     placeShip,
     placeBomb,
+    isGameOver,
   };
 };

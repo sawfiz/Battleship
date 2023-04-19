@@ -8,9 +8,9 @@ function getRandomNum() {
 function placeShipRandom(gameBoard, type) {
   let row, col, direction;
   do {
-     row = getRandomNum();
-     col = getRandomNum();
-     direction = Math.random() > 0.5 ? 'horizontal' : 'vertical';
+    row = getRandomNum();
+    col = getRandomNum();
+    direction = Math.random() > 0.5 ? 'horizontal' : 'vertical';
   } while (!gameBoard.placeShip(type, row, col, direction));
 }
 
@@ -30,10 +30,30 @@ export const game = () => {
   placeFleet(human.gameBoard);
   placeFleet(computer.gameBoard);
 
-  human.gameBoard.printBoard();
-  computer.gameBoard.printBoard();
-
-  human.gameBoard.placeBomb(0, 0);
-  human.gameBoard.placeBomb(0, 5);
   updateDisplay(human, computer);
+
+  // Wait for human player to go first
+  // Human player plays bombs computer's board
+  const computerBoardEl = document.querySelector('#computer-board');
+  computerBoardEl.addEventListener('click', (e) => {
+    if (e.target.classList.contains('cell')) {
+      const { row } = e.target.dataset;
+      const { col } = e.target.dataset;
+
+      if (computer.gameBoard.placeBomb(row, col)) {
+        updateDisplay(human, computer);
+        if (computer.gameBoard.isGameOver()) {
+          alert('Game Over, you won!')
+        }
+        
+        // Computer bombs the human player board
+        human.makeMove();
+        updateDisplay(human, computer);
+        if (human.gameBoard.isGameOver()) {
+          alert('Game Over, you lost!')
+        }
+      }
+    }
+
+  });
 };
