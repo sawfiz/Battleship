@@ -19,7 +19,7 @@ body {
 }
 
 h1 {
-  color: red;
+  /* color: red; */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -41,6 +41,21 @@ main {
   justify-content: center;
   align-items: center; 
   position: relative;
+}
+
+.territory {
+  position: absolute;
+  top: 1rem;
+  font: 1.5em sans-serif;
+  font-weight: bold;
+}
+
+.enemy {
+  color: red;
+}
+
+.my {
+  color: green;
 }
 
 .cheat-container {
@@ -82,9 +97,9 @@ main {
   background-color: lightblue;
 }
 
-.marker {
-  width: 80%;
-  height: 80%;
+.bomb {
+  width: 50%;
+  height: 50%;
   border-radius: 50%;
   z-index: 100;
 }

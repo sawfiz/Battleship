@@ -49,7 +49,7 @@ function updateBoard(boardEl, board, show) {
         // cellEl.style.zIndex = 10;
         // cellEl.style.cursor = 'not-allowed';
 
-        const bombEl = createElement('div', ['marker']);
+        const bombEl = createElement('div', ['bomb']);
         cellEl.appendChild(bombEl);
         if (cell.hasShip) {
           console.log(i, j, 'hit!');
