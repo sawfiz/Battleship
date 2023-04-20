@@ -50,21 +50,20 @@ export const game = () => {
       const { row } = e.target.dataset;
       const { col } = e.target.dataset;
 
-      // This method returns ture after placing the bomb
-      if (computer.gameBoard.placeBomb(row, col)) {
-        updateDisplay(human, computer);
-        // Check if it is the winning move
-        if (computer.gameBoard.isGameOver()) {
-          alert('Game Over, you won!')
-        }
-        
-        // Computer bombs the human player board
-        human.makeMove();
-        updateDisplay(human, computer);
-        // Check if it is the winning move
-        if (human.gameBoard.isGameOver()) {
-          alert('Game Over, you lost!')
-        }
+      // Attack the computer's gameBoard
+      computer.gameBoard.receiveAttack(row, col);
+      updateDisplay(human, computer);
+      // Check if it is the winning move
+      if (computer.gameBoard.isGameOver()) {
+        alert('Game Over, you won!');
+      }
+
+      // Computer bombs the human player board
+      human.getBombed();
+      updateDisplay(human, computer);
+      // Check if it is the winning move
+      if (human.gameBoard.isGameOver()) {
+        alert('Game Over, you lost!');
       }
     }
   });

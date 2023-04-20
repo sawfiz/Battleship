@@ -7,16 +7,16 @@ export const Player = (name, type) => {
     return Math.floor(Math.random() * 10);
   }
   
-  function makeRandomMove() {
+  function getBombedRandonly() {
     let row, col;
     do {
       row = getRandomNum();
       col = getRandomNum();
-    } while (!gameBoard.placeBomb(row, col));
+    } while (!gameBoard.receiveAttack(row, col));
   }
 
-  const makeMove = () => {
-    makeRandomMove();
+  const getBombed = () => {
+    getBombedRandonly();
   }
 
   return {
@@ -35,6 +35,6 @@ export const Player = (name, type) => {
     get gameBoard() {
       return gameBoard;
     },
-    makeMove,
+    getBombed,
   };
 };

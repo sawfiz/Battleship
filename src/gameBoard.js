@@ -77,7 +77,7 @@ export const GameBoard = () => {
     return false;
   }
 
-  const placeBomb = (row, col) => {
+  const receiveAttack = (row, col) => {
     if (board[row][col].isBombed) {
       return false;
     } else {
@@ -97,7 +97,7 @@ export const GameBoard = () => {
     initBoard,
     printBoard,
     placeShip,
-    placeBomb,
+    receiveAttack,
     isGameOver,
   };
 };
