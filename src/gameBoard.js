@@ -48,7 +48,7 @@ export const GameBoard = () => {
         }
       }
       for (let i = 0; i < size; i++) {
-        board[row + i][col].placeShip(ship);
+        board[row + i][col].placeShip(ship, i, direction);
       }
     } else {
       if (direction === 'horizontal') {
@@ -58,7 +58,7 @@ export const GameBoard = () => {
           }
         }
         for (let i = 0; i < size; i++) {
-          board[row][col + i].placeShip(ship);
+          board[row][col + i].placeShip(ship, i, direction);
         }
       }
     }

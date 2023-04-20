@@ -62,22 +62,31 @@ main {
 }
 
 .cell {
+  position: relative;
   background-color: blue;
   width: 3vw;
   height: 3vw;
   display: flex;
   justify-content: center;
   align-items: center; 
+  /* border: 1px blue solid; */
+  overflow: hidden;
+}
+
+.image {
+  position: absolute;
 }
 
 .show {
+  opacity: 50;
   background-color: lightblue;
 }
 
-.bombed {
+.marker {
   width: 80%;
   height: 80%;
   border-radius: 50%;
+  z-index: 100;
 }
 
 .missed {
