@@ -10,7 +10,7 @@ export const GameBoard = () => {
     for (let i = 0; i < BOARDSIZE; i++) {
       board[i] = [];
       for (let j = 0; j < BOARDSIZE; j++) {
-        board[i].push(Cell());
+        board[i].push(Cell(i, j));
       }
     }
   };
@@ -72,21 +72,23 @@ export const GameBoard = () => {
         currentValue.filter((cell) => cell.isBombed && cell.hasShip).length
       );
     }, 0);
-    console.log(count);
     if (count >= 17) return true;
     return false;
   }
 
   const receiveAttack = (row, col) => {
     if (board[row][col].isBombed) {
-      return false;
+      return '';
     } else {
+      // Mark the cell isBombed = true
       board[row][col].attack();
+      // Check if it is a hit
       if (board[row][col].hasShip) {
         const ship = board[row][col].ship;
         ship.hit();
+        return 'hit';
       }
-      return true;
+      return 'miss';
     }
   };
 

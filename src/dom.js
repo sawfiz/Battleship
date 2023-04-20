@@ -11,9 +11,10 @@ function updateBoard(boardEl, board) {
         ''
       );
       boardEl.appendChild(cellEl);
-      if (board[i][j].hasShip) {
-        cellEl.innerText = board[i][j].ship.type[0];
-      }
+      // Cheat, show the ship locations
+      // if (board[i][j].hasShip) {
+      //   cellEl.innerText = board[i][j].ship.type[0];
+      // }
       if (board[i][j].isBombed) {
         cellEl.style.pointerEvents = 'none';
         // cellEl.style.cursor = 'not-allowed';

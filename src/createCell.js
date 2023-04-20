@@ -1,4 +1,4 @@
-export const Cell = () => {
+export const Cell = (row, col) => {
   let ship = null;
   let hasShip = false;
   let isBombed = false;
@@ -13,6 +13,8 @@ export const Cell = () => {
   };
 
   return {
+    row,
+    col,
     get ship() {
       return ship;
     },
