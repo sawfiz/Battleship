@@ -28,6 +28,7 @@ function placeFleet(gameBoard) {
 }
 
 export const game = () => {
+  let cheat = false;
   const human = Player('Tom', 'human');
   const computer = Player('Jerry', 'computer');
 
@@ -36,7 +37,7 @@ export const game = () => {
   // Randomly places ships on the computer board
   placeFleet(computer.gameBoard);
 
-  updateDisplay(human, computer);
+  updateDisplay(human, computer, cheat);
 
   // Wait for human player to go first
   // Human player places bombs onto computer's board
@@ -53,7 +54,7 @@ export const game = () => {
 
       // Attack the computer's gameBoard
       computer.gameBoard.receiveAttack(row, col);
-      updateDisplay(human, computer);
+      updateDisplay(human, computer, cheat);
       // Check if it is the winning move
       if (computer.gameBoard.isGameOver()) {
         await delay(500);
@@ -62,7 +63,7 @@ export const game = () => {
       
       // Computer bombs the human player board
       human.getBombed();
-      updateDisplay(human, computer);
+      updateDisplay(human, computer, cheat);
       // Check if it is the winning move
       if (human.gameBoard.isGameOver()) {
         await delay(500);
@@ -70,4 +71,10 @@ export const game = () => {
       }
     }
   });
+
+  const cheatCheckbox = document.querySelector('#cheat')
+  cheatCheckbox.addEventListener('change', () => {
+    cheat = cheatCheckbox.checked;
+    updateDisplay(human, computer, cheat);
+  })
 };

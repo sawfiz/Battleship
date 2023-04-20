@@ -1,7 +1,7 @@
 import { BOARDSIZE } from './constants';
 import createElement from './createElement';
 
-function updateBoard(boardEl, board) {
+function updateBoard(boardEl, board, show) {
   for (let i = 0; i < BOARDSIZE; i++) {
     for (let j = 0; j < BOARDSIZE; j++) {
       const cellEl = createElement(
@@ -12,9 +12,12 @@ function updateBoard(boardEl, board) {
       );
       boardEl.appendChild(cellEl);
       // Cheat, show the ship locations
-      // if (board[i][j].hasShip) {
-      //   cellEl.innerText = board[i][j].ship.type[0];
-      // }
+      if (show) {
+        if (board[i][j].hasShip) {
+          cellEl.classList.add('show')
+          // cellEl.innerText = board[i][j].ship.type[0];
+        }
+      }
       if (board[i][j].isBombed) {
         cellEl.style.pointerEvents = 'none';
         // cellEl.style.cursor = 'not-allowed';
@@ -31,13 +34,14 @@ function updateBoard(boardEl, board) {
   }
 }
 
-export const updateDisplay = (human, computer) => {
+export const updateDisplay = (human, computer, cheat) => {
   const computerBoardEl = document.querySelector('#computer-board');
   const humanBoardEl = document.querySelector('#human-board');
 
   computerBoardEl.innerHTML = '';
   humanBoardEl.innerHTML = '';
 
-  updateBoard(computerBoardEl, computer.gameBoard.board);
-  updateBoard(humanBoardEl, human.gameBoard.board);
+  const show = true;
+  updateBoard(computerBoardEl, computer.gameBoard.board, cheat);
+  updateBoard(humanBoardEl, human.gameBoard.board, show);
 };

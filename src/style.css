@@ -1,3 +1,11 @@
+:root {
+  /* Victor Verion */
+  --darker-color: #ff0000;
+  --dark-color: #11cbd7;
+  --light-color: #c6f1e7;
+  --lighter-color: #f0fff3;
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -32,6 +40,14 @@ main {
   display: flex;
   justify-content: center;
   align-items: center; 
+  position: relative;
+}
+
+.cheat-container {
+  position: absolute;
+  bottom: 1rem;
+  display: flex;
+  gap: 5px;
 }
 
 .human-fleet {
@@ -54,6 +70,10 @@ main {
   align-items: center; 
 }
 
+.show {
+  background-color: lightblue;
+}
+
 .bombed {
   width: 80%;
   height: 80%;
@@ -72,4 +92,70 @@ footer {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+/* Toggle switch to show/hide enemy ships */
+
+
+/* The size of the toggle switch */
+.toggle-switch {
+  position: relative;
+  display: inline-block;
+  width: 36px;
+  height: 20px;
+}
+
+/* Hide the default checkbox */
+.toggle-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* The slider that the circle can move */
+/* same size as the toggle switch */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  transition: 0.4s;
+}
+
+/* The circle that moves in the slider */
+/* Before it is checked, the indicator (square) is on the left */
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 12px;
+  width: 12px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  transition: 0.4s;
+}
+
+/* Change toggle switch background color when it is clicked */
+/* Thethe + is used to select the .slider immidiately follow the input:checked */
+/* The styling applies to the .slider */
+input:checked + .slider {
+  background-color: var(--darker-color);
+}
+
+/* When checked, move indicator to the right by 16px */
+input:checked + .slider:before {
+  transform: translateX(16px);
+}
+
+/* Make slider have round corners */
+.slider.round {
+  border-radius: 10px;
+}
+
+/* Make the indicator round */
+.slider.round:before {
+  border-radius: 50%;
 }
