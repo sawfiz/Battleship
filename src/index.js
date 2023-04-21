@@ -1,6 +1,8 @@
 import './style.css';
+import { setupFleet } from '../src/fleetSetup';
 import { game } from './game';
 
-console.log('Battleship');
-
-game();
+setupFleet().then(() => {
+  console.log('Battleship');
+  game();
+});
