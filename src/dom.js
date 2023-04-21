@@ -16,6 +16,10 @@ function updateBoard(boardEl, board, show) {
       // Show if a cell is being dragged over when deploying ships
       if (cell.draggedOver) {
         cellEl.classList.add('draggedOver');
+        if (cell.hasShip) {
+          cellEl.classList.remove('draggedOver');
+          cellEl.classList.add('draggedOver-red');
+        }
       }
 
       // For human player, show the ship deployment
