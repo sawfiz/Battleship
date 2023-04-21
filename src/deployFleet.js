@@ -119,12 +119,20 @@ const deployShip = (ship, human) => {
     const onDragEnd = () => {
       // Todo: This does not seem to work
       // The intention is so that the ship does not zoom back once it is placed
-      shipImage.remove();
-
+      
       const direction = rotated ? 'vertical' : 'horizontal';
-      human.gameBoard.placeShip(ship, startRow, startCol, direction);
-      updateDisplay(human);
-      resolve();
+      if (human.gameBoard.placeShip(ship, startRow, startCol, direction)) {
+        shipImage.remove();
+        updateDisplay(human);
+        resolve();
+      } else {
+        for (let i = 0; i < FLEET[ship].size; i++) {
+          if (startRow + i < 10) {
+            human.gameBoard.board[startRow + i][startCol].draggedOver = false;
+          }
+          updateDisplay(human);
+        } 
+      }
     };
 
     shipImage.addEventListener('dragstart', onDragStart);
