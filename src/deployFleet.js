@@ -1,46 +1,24 @@
-import { BOARDSIZE } from './constants';
-import delay from './delay';
+import createElement from './createElement';
+import { BOARDSIZE, FLEET, IMAGES } from './constants';
 import { updateDisplay } from './dom';
 
-import createElement from './createElement';
-import carrierImage from './images/carrier.svg';
-import battleshipImage from './images/battleship.svg';
-import cruiserImage from './images/cruiser.svg';
-import submarineImage from './images/submarine.svg';
-import destroyerImage from './images/destroyer.svg';
-
-const FLEET = {
-  carrier: { size: 5 },
-  battleship: { size: 4 },
-  cruiser: { size: 3 },
-  submarine: { size: 3 },
-  destroyer: { size: 2 },
-};
-
-const images = {
-  carrier: carrierImage,
-  battleship: battleshipImage,
-  cruiser: cruiserImage,
-  submarine: submarineImage,
-  destroyer: destroyerImage,
-};
-
-const humanBoardContainerEl = document.querySelector('.human-board-container');
 const humanFleetContainerEl = document.querySelector('.human-fleet-container');
 const humanBoardEl = document.querySelector('#human-board');
 
-const setupShip = (ship, human) => {
+const deployShip = (ship, human) => {
+  // Set up deploy ship side bar
   humanFleetContainerEl.innerHTML = '';
   const headingEl = createElement(
     'div',
-    ['place-ship'],
+    ['deploy-heading'],
     {},
-    `Place your ${ship}`
+    `Deploy your ${ship}`
   );
   humanFleetContainerEl.appendChild(headingEl);
   const shipContainerEl = createElement('div', ['ship-container']);
-  const shipImage = createElement('img', [], { draggable: 'true' });
-  shipImage.src = images[ship];
+  const shipImage = createElement('img', ['ship-image'], { draggable: 'true' });
+  shipImage.src = IMAGES[ship];
+  // Each cell in the game board is 3vw
   shipImage.style.width = FLEET[ship].size * 3 + 'vw';
   let rotated = false;
   shipContainerEl.appendChild(shipImage);
@@ -50,6 +28,7 @@ const setupShip = (ship, human) => {
   rotateContainer.appendChild(rotateBtn);
   humanFleetContainerEl.appendChild(rotateContainer);
 
+  // Button to toggle rotating of the ship
   rotateBtn.addEventListener('click', () => {
     if (!rotated) {
       shipImage.style.transform = 'rotate(90deg)';
@@ -62,7 +41,6 @@ const setupShip = (ship, human) => {
   return new Promise((resolve) => {
     let rowOffset = 0;
     let colOffset = 0;
-
     let startRow, startCol;
 
     const onDragStart = (event) => {
@@ -75,35 +53,25 @@ const setupShip = (ship, human) => {
         const xOffset = event.clientX - rect.left;
         colOffset = Math.floor(xOffset / ((3 / 100) * window.innerWidth));
       } else {
-        // shipImage.style.transform = 'rotate(90deg)'
+        // Todo: shipImage.style.transform = 'rotate(90deg)'
+        // How to make the dragged ship image rotate by 90 deg too?
         shipImage.style.height = FLEET[ship].size * 3 + 'vw';
         // shipImage.style.height = '3vw'
         // Get the location of the mouse relative to the image
         const rect = shipImage.getBoundingClientRect();
         const yOffset = event.clientY - rect.top;
-        console.log(
-          '🚀 ~ file: fleetSetup.js:79 ~ onDragStart ~ yOffset:',
-          yOffset
-        );
         rowOffset = Math.floor(yOffset / ((3 / 100) * window.innerWidth));
-        console.log(
-          '🚀 ~ file: fleetSetup.js:80 ~ onDragStart ~ rowOffset:',
-          rowOffset
-        );
       }
     };
 
     const onDragOver = (event) => {
-      // event.preventDefault();
-
       // Get the location and size of the board
       const rect = humanBoardEl.getBoundingClientRect();
       // The Grid is 10 x 10
-      const cellWidth = rect.width / 10;
-      const cellHeight = rect.width / 10;
+      const cellWidth = rect.width / BOARDSIZE;
+      const cellHeight = rect.width / BOARDSIZE;
       const col = Math.floor((event.clientX - rect.left) / cellWidth);
       const row = Math.floor((event.clientY - rect.top) / cellHeight);
-      console.log(row, col);
 
       if (!rotated) {
         startCol = col - colOffset;
@@ -143,7 +111,10 @@ const setupShip = (ship, human) => {
     };
 
     const onDragEnd = () => {
-      console.log('dragend');
+      // Todo: This does not seem to work
+      // The intention is so that the ship does not zoom back once it is placed
+      shipImage.remove(); 
+
       const direction = rotated ? 'vertical' : 'horizontal';
       human.gameBoard.placeShip(ship, startRow, startCol, direction);
       updateDisplay(human);
@@ -156,16 +127,13 @@ const setupShip = (ship, human) => {
   });
 };
 
-export const setupFleet = (human, computer) => {
-  human.gameBoard.initBoard();
-  computer.gameBoard.initBoard();
-  updateDisplay(human, computer);
+export const deployFleet = (human) => {
   return new Promise((resolve) => {
-    setupShip('carrier', human).then(() => {
-      setupShip('battleship', human).then(() => {
-        setupShip('cruiser', human).then(() => {
-          setupShip('submarine', human).then(() => {
-            setupShip('destroyer', human).then(() => {
+    deployShip('carrier', human).then(() => {
+      deployShip('battleship', human).then(() => {
+        deployShip('cruiser', human).then(() => {
+          deployShip('submarine', human).then(() => {
+            deployShip('destroyer', human).then(() => {
               humanFleetContainerEl.innerHTML = ''
               resolve();
             });

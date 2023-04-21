@@ -1,4 +1,4 @@
-import { updateDisplay } from './dom';
+import { updateDisplay, stopPlaying } from './dom';
 import delay from './delay';
 
 // Generates a random number 0-9
@@ -29,7 +29,6 @@ function placeFleet(gameBoard) {
 export const game = (human, computer) => {
   let cheat = false;
 
-
   // Randomly places ships on the human board
   // placeFleet(human.gameBoard);
   // Randomly places ships on the computer board
@@ -55,6 +54,7 @@ export const game = (human, computer) => {
       updateDisplay(human, computer, cheat);
       // Check if it is the winning move
       if (computer.gameBoard.isGameOver()) {
+        stopPlaying();
         await delay(500);
         alert('Game Over, you won!');
       }
@@ -64,15 +64,16 @@ export const game = (human, computer) => {
       updateDisplay(human, computer, cheat);
       // Check if it is the winning move
       if (human.gameBoard.isGameOver()) {
+        stopPlaying();
         await delay(500);
         alert('Game Over, you lost!');
       }
     }
   });
 
-  const cheatCheckbox = document.querySelector('#cheat')
+  const cheatCheckbox = document.querySelector('#cheat');
   cheatCheckbox.addEventListener('change', () => {
     cheat = cheatCheckbox.checked;
     updateDisplay(human, computer, cheat);
-  })
+  });
 };

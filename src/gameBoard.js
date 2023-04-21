@@ -1,5 +1,5 @@
 import { Cell } from './createCell';
-import { BOARDSIZE, FLEET } from './constants';
+import { BOARDSIZE } from './constants';
 import { createShip } from './createShip';
 
 export const GameBoard = () => {

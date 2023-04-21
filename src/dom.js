@@ -1,18 +1,5 @@
-import { BOARDSIZE } from './constants';
+import { BOARDSIZE, IMAGES } from './constants';
 import createElement from './createElement';
-import carrierImage from './images/carrier.svg';
-import battleshipImage from './images/battleship.svg';
-import cruiserImage from './images/cruiser.svg';
-import submarineImage from './images/submarine.svg';
-import destroyerImage from './images/destroyer.svg';
-
-const images = {
-  carrier: carrierImage,
-  battleship: battleshipImage,
-  cruiser: cruiserImage,
-  submarine: submarineImage,
-  destroyer: destroyerImage,
-};
 
 function updateBoard(boardEl, board, show) {
   for (let i = 0; i < BOARDSIZE; i++) {
@@ -26,17 +13,19 @@ function updateBoard(boardEl, board, show) {
       );
       boardEl.appendChild(cellEl);
 
+      // Show if a cell is being dragged over when deploying ships
       if (cell.draggedOver) {
         cellEl.classList.add('draggedOver');
       }
 
-      // Cheat, show the ship locations
+      // For human player, show the ship deployment
+      // Also used when cheating, to show the enemy deployment
       if (show) {
         if (cell.hasShip) {
           cellEl.classList.add('show');
           // cellEl.innerText = board[i][j].ship.type[0];
           const img = createElement('img', ['image']);
-          img.src = images[cell.ship.type];
+          img.src = IMAGES[cell.ship.type];
           img.style.height = '4vw';
           img.style.width = 3 * cell.ship.size + 'vw';
           if (cell.direction === 'vertical') {
@@ -49,9 +38,10 @@ function updateBoard(boardEl, board, show) {
           cellEl.appendChild(img);
         }
       }
+
+      // Show if a location has been bombed, and if hit or miss
       if (cell.isBombed) {
         cellEl.style.pointerEvents = 'none';
-
         const bombEl = createElement('div', ['bomb']);
         cellEl.appendChild(bombEl);
         if (cell.hasShip) {
@@ -61,21 +51,32 @@ function updateBoard(boardEl, board, show) {
           bombEl.classList.add('missed');
         }
       }
-
     }
   }
 }
 
-export const updateDisplay = (human, computer, cheat) => {
+const updateDisplay = (human, computer, cheat) => {
   const computerBoardEl = document.querySelector('#computer-board');
   const humanBoardEl = document.querySelector('#human-board');
 
+  // Always show human player fleet
   humanBoardEl.innerHTML = '';
-
   const show = true;
   updateBoard(humanBoardEl, human.gameBoard.board, show);
+
+  // During deployment stage, no need to refresh computer board
   if (computer) {
     computerBoardEl.innerHTML = '';
+    // Show computer deployment if cheating
     updateBoard(computerBoardEl, computer.gameBoard.board, cheat);
   }
 };
+
+const stopPlaying = () => {
+  // Todo: This does not seem to work
+  const humanBoardEl = document.querySelector('#human-board');
+  humanBoardEl.style.pointerEvents = 'none';
+  document.addEventListener('click', (e) => e.preventDefault());
+};
+
+export { updateDisplay, stopPlaying };
