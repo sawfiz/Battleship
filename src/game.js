@@ -1,4 +1,3 @@
-import { Player } from '../src/players';
 import { updateDisplay } from './dom';
 import delay from './delay';
 
@@ -27,10 +26,9 @@ function placeFleet(gameBoard) {
   placeShipRandom(gameBoard, 'destroyer');
 }
 
-export const game = () => {
+export const game = (human, computer) => {
   let cheat = false;
-  const human = Player('Tom', 'human');
-  const computer = Player('Jerry', 'computer');
+
 
   // Randomly places ships on the human board
   placeFleet(human.gameBoard);

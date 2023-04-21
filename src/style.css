@@ -10,6 +10,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  border: 1px solid red;
 }
 
 body {
@@ -117,7 +118,16 @@ main {
   grid-template-rows: 1fr 4fr 1fr 1fr;
 }
 
+.ship-container, .rotate-container, .rotate-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
+.rotate-btn {
+  width: 50%;
+  height: 50%;
+}
 
 footer {
   display: flex;

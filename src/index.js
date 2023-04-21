@@ -1,8 +1,12 @@
 import './style.css';
+import { Player } from './players';
 import { setupFleet } from '../src/fleetSetup';
 import { game } from './game';
 
-setupFleet().then(() => {
+const human = Player('Tom', 'human');
+const computer = Player('Jerry', 'computer');
+
+setupFleet(human, computer).then(() => {
   console.log('Battleship');
-  game();
+  game(human, computer);
 });
