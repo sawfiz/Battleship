@@ -4,6 +4,7 @@ import { placeFleet } from './deployRandomly';
 
 export const game = (human, computer) => {
   let cheat = false;
+  let turn = 0;
 
   // Randomly places ships on the human board
   // placeFleet(human.gameBoard);
@@ -31,6 +32,11 @@ export const game = (human, computer) => {
       row = e.target.parentElement.dataset.row;
       col = e.target.parentElement.dataset.col;
     }
+
+    turn++;
+    const turnEl = document.querySelector('.turn');
+    turnEl.innerHTML = '';
+    turnEl.innerText = `Turn: ${turn}`;
 
     // Attack the computer's gameBoard
     computer.gameBoard.receiveAttack(row, col);
