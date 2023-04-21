@@ -19,31 +19,37 @@ export const game = (human, computer) => {
     // Check if a cell is clicked on
     // Cells that have been clicked on have `pointerEvents = none`
     // When those cells are click, the class of the target is the board, not cell
+    let row, col;
     if (e.target.classList.contains('cell')) {
       // Retrieve the row and col from the element's dataset
       // These were set when these cells are created in dom.js
-      const { row } = e.target.dataset;
-      const { col } = e.target.dataset;
+      row = e.target.dataset.row;
+      col = e.target.dataset.col;
+    }
+    // If cheating, the target of the click is image, whose parent is cell
+    else if (e.target.parentElement.classList.contains('cell')) {
+      row = e.target.parentElement.dataset.row;
+      col = e.target.parentElement.dataset.col;
+    }
 
-      // Attack the computer's gameBoard
-      computer.gameBoard.receiveAttack(row, col);
-      updateDisplay(human, computer, cheat);
-      // Check if it is the winning move
-      if (computer.gameBoard.isGameOver()) {
-        stopPlaying();
-        await delay(500);
-        alert('Game Over, you won!');
-      }
-      
-      // Computer bombs the human player board
-      human.getBombed();
-      updateDisplay(human, computer, cheat);
-      // Check if it is the winning move
-      if (human.gameBoard.isGameOver()) {
-        stopPlaying();
-        await delay(500);
-        alert('Game Over, you lost!');
-      }
+    // Attack the computer's gameBoard
+    computer.gameBoard.receiveAttack(row, col);
+    updateDisplay(human, computer, cheat);
+    // Check if it is the winning move
+    if (computer.gameBoard.isGameOver()) {
+      stopPlaying();
+      await delay(500);
+      alert('Game Over, you won!');
+    }
+
+    // Computer bombs the human player board
+    human.getBombed();
+    updateDisplay(human, computer, cheat);
+    // Check if it is the winning move
+    if (human.gameBoard.isGameOver()) {
+      stopPlaying();
+      await delay(500);
+      alert('Game Over, you lost!');
     }
   });
 

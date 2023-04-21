@@ -17,5 +17,3 @@ updateDisplay(human, computer);
 deployFleet(human).then(() => {
   game(human, computer);
 });
-
-// Todo: when cheating, can not click on the enemy ships
