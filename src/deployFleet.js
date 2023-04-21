@@ -1,6 +1,7 @@
 import createElement from './createElement';
 import { BOARDSIZE, FLEET, IMAGES } from './constants';
 import { updateDisplay } from './dom';
+import { placeFleet } from './deployRandomly';
 
 const humanFleetContainerEl = document.querySelector('.human-fleet-container');
 const humanBoardEl = document.querySelector('#human-board');
@@ -12,7 +13,7 @@ const deployShip = (ship, human) => {
     'div',
     ['deploy-heading'],
     {},
-    `Deploy your ${ship}`
+    `Drag and drop to deploy your ${ship}`
   );
   humanFleetContainerEl.appendChild(headingEl);
   const shipContainerEl = createElement('div', ['ship-container']);
@@ -24,7 +25,12 @@ const deployShip = (ship, human) => {
   shipContainerEl.appendChild(shipImage);
   humanFleetContainerEl.appendChild(shipContainerEl);
   const rotateContainer = createElement('div', ['rotate-container']);
-  const rotateBtn = createElement('button', ['rotate-btn'], {}, 'Rotate');
+  const rotateBtn = createElement(
+    'button',
+    ['rotate-btn'],
+    {},
+    'Rotate ship 🔄'
+  );
   rotateContainer.appendChild(rotateBtn);
   humanFleetContainerEl.appendChild(rotateContainer);
 
@@ -113,7 +119,7 @@ const deployShip = (ship, human) => {
     const onDragEnd = () => {
       // Todo: This does not seem to work
       // The intention is so that the ship does not zoom back once it is placed
-      shipImage.remove(); 
+      shipImage.remove();
 
       const direction = rotated ? 'vertical' : 'horizontal';
       human.gameBoard.placeShip(ship, startRow, startCol, direction);
@@ -129,12 +135,28 @@ const deployShip = (ship, human) => {
 
 export const deployFleet = (human) => {
   return new Promise((resolve) => {
+
+    const startGameMsg =() => {
+      const turnEl = document.querySelector('.turn');
+      turnEl.innerHTML = '';
+      turnEl.innerText = 'Start bombing the enemy waters, now!';
+    }
+
+    const deployRandomBtn = document.querySelector('#random-deploy');
+    deployRandomBtn.addEventListener('click', () => {
+      humanFleetContainerEl.innerHTML = '';
+      placeFleet(human.gameBoard);
+      startGameMsg();
+      resolve();
+    });
+
     deployShip('carrier', human).then(() => {
       deployShip('battleship', human).then(() => {
         deployShip('cruiser', human).then(() => {
           deployShip('submarine', human).then(() => {
             deployShip('destroyer', human).then(() => {
-              humanFleetContainerEl.innerHTML = ''
+              humanFleetContainerEl.innerHTML = '';
+              startGameMsg();
               resolve();
             });
           });

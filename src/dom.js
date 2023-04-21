@@ -45,7 +45,6 @@ function updateBoard(boardEl, board, show) {
         const bombEl = createElement('div', ['bomb']);
         cellEl.appendChild(bombEl);
         if (cell.hasShip) {
-          console.log(i, j, 'hit!');
           bombEl.classList.add('hit');
         } else {
           bombEl.classList.add('missed');
