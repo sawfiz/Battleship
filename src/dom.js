@@ -25,6 +25,11 @@ function updateBoard(boardEl, board, show) {
         ''
       );
       boardEl.appendChild(cellEl);
+
+      if (cell.draggedOver) {
+        cellEl.classList.add('draggedOver');
+      }
+
       // Cheat, show the ship locations
       if (show) {
         if (cell.hasShip) {
@@ -46,8 +51,6 @@ function updateBoard(boardEl, board, show) {
       }
       if (cell.isBombed) {
         cellEl.style.pointerEvents = 'none';
-        // cellEl.style.zIndex = 10;
-        // cellEl.style.cursor = 'not-allowed';
 
         const bombEl = createElement('div', ['bomb']);
         cellEl.appendChild(bombEl);
@@ -58,6 +61,7 @@ function updateBoard(boardEl, board, show) {
           bombEl.classList.add('missed');
         }
       }
+
     }
   }
 }
@@ -66,10 +70,12 @@ export const updateDisplay = (human, computer, cheat) => {
   const computerBoardEl = document.querySelector('#computer-board');
   const humanBoardEl = document.querySelector('#human-board');
 
-  computerBoardEl.innerHTML = '';
   humanBoardEl.innerHTML = '';
 
   const show = true;
-  updateBoard(computerBoardEl, computer.gameBoard.board, cheat);
   updateBoard(humanBoardEl, human.gameBoard.board, show);
+  if (computer) {
+    computerBoardEl.innerHTML = '';
+    updateBoard(computerBoardEl, computer.gameBoard.board, cheat);
+  }
 };

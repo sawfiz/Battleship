@@ -27,15 +27,21 @@ const images = {
 
 const humanBoardContainerEl = document.querySelector('.human-board-container');
 const humanFleetContainerEl = document.querySelector('.human-fleet-container');
+const humanBoardEl = document.querySelector('#human-board');
 
-const setupShip = (ship) => {
-  let placed = false;
-  const headingEl = createElement('div', [], {}, `Place your ${ship}`);
+const setupShip = (ship, human) => {
+  humanFleetContainerEl.innerHTML = '';
+  const headingEl = createElement(
+    'div',
+    ['place-ship'],
+    {},
+    `Place your ${ship}`
+  );
   humanFleetContainerEl.appendChild(headingEl);
   const shipContainerEl = createElement('div', ['ship-container']);
-  const shipImage = createElement('img');
+  const shipImage = createElement('img', [], { draggable: 'true' });
   shipImage.src = images[ship];
-  shipImage.style.width = FLEET[ship].size * 2 + 'vw';
+  shipImage.style.width = FLEET[ship].size * 3 + 'vw';
   let rotated = false;
   shipContainerEl.appendChild(shipImage);
   humanFleetContainerEl.appendChild(shipContainerEl);
@@ -54,10 +60,99 @@ const setupShip = (ship) => {
   });
 
   return new Promise((resolve) => {
-    if (placed) {
-      console.log('5 seconds delay in setupShip()');
+    let rowOffset = 0;
+    let colOffset = 0;
+
+    let startRow, startCol;
+
+    const onDragStart = (event) => {
+      if (!rotated) {
+        // The ship is horizontal
+        shipImage.style.width = FLEET[ship].size * 3 + 'vw';
+        // shipImage.style.height = '3vw'
+        // Get the location of the mouse relative to the image
+        const rect = shipImage.getBoundingClientRect();
+        const xOffset = event.clientX - rect.left;
+        colOffset = Math.floor(xOffset / ((3 / 100) * window.innerWidth));
+      } else {
+        // shipImage.style.transform = 'rotate(90deg)'
+        shipImage.style.height = FLEET[ship].size * 3 + 'vw';
+        // shipImage.style.height = '3vw'
+        // Get the location of the mouse relative to the image
+        const rect = shipImage.getBoundingClientRect();
+        const yOffset = event.clientY - rect.top;
+        console.log(
+          '🚀 ~ file: fleetSetup.js:79 ~ onDragStart ~ yOffset:',
+          yOffset
+        );
+        rowOffset = Math.floor(yOffset / ((3 / 100) * window.innerWidth));
+        console.log(
+          '🚀 ~ file: fleetSetup.js:80 ~ onDragStart ~ rowOffset:',
+          rowOffset
+        );
+      }
+    };
+
+    const onDragOver = (event) => {
+      // event.preventDefault();
+
+      // Get the location and size of the board
+      const rect = humanBoardEl.getBoundingClientRect();
+      // The Grid is 10 x 10
+      const cellWidth = rect.width / 10;
+      const cellHeight = rect.width / 10;
+      const col = Math.floor((event.clientX - rect.left) / cellWidth);
+      const row = Math.floor((event.clientY - rect.top) / cellHeight);
+      console.log(row, col);
+
+      if (!rotated) {
+        startCol = col - colOffset;
+        startRow = row < 0 ? 0 : row;
+        if (startCol < 0) startCol = 0;
+        if (startCol > 9 - FLEET[ship].size)
+          startCol = 9 - FLEET[ship].size + 1;
+        for (let i = 0; i < FLEET[ship].size; i++) {
+          if (startCol + i < 10) {
+            human.gameBoard.board[startRow][startCol + i].draggedOver = true;
+          }
+        }
+        updateDisplay(human);
+        for (let i = 0; i < FLEET[ship].size; i++) {
+          if (startCol + i < 10) {
+            human.gameBoard.board[startRow][startCol + i].draggedOver = false;
+          }
+        }
+      } else {
+        startCol = col < 0 ? 0 : col;
+        startRow = row - rowOffset < 0 ? 0 : row - rowOffset;
+        if (startRow < 0) startRow = 0;
+        if (startRow > 9 - FLEET[ship].size)
+          startRow = 9 - FLEET[ship].size + 1;
+        for (let i = 0; i < FLEET[ship].size; i++) {
+          if (startRow + i < 10) {
+            human.gameBoard.board[startRow + i][startCol].draggedOver = true;
+          }
+        }
+        updateDisplay(human);
+        for (let i = 0; i < FLEET[ship].size; i++) {
+          if (startRow + i < 10) {
+            human.gameBoard.board[startRow + i][startCol].draggedOver = false;
+          }
+        }
+      }
+    };
+
+    const onDragEnd = () => {
+      console.log('dragend');
+      const direction = rotated ? 'vertical' : 'horizontal';
+      human.gameBoard.placeShip(ship, startRow, startCol, direction);
+      updateDisplay(human);
       resolve();
-    }
+    };
+
+    shipImage.addEventListener('dragstart', onDragStart);
+    humanBoardEl.addEventListener('dragover', onDragOver);
+    shipImage.addEventListener('dragend', onDragEnd);
   });
 };
 
@@ -66,10 +161,17 @@ export const setupFleet = (human, computer) => {
   computer.gameBoard.initBoard();
   updateDisplay(human, computer);
   return new Promise((resolve) => {
-    setupShip('carrier').then(async () => {
-      await delay(5000);
-      console.log('5 seconds delay in setupFleet()');
-      resolve();
+    setupShip('carrier', human).then(() => {
+      setupShip('battleship', human).then(() => {
+        setupShip('cruiser', human).then(() => {
+          setupShip('submarine', human).then(() => {
+            setupShip('destroyer', human).then(() => {
+              humanFleetContainerEl.innerHTML = ''
+              resolve();
+            });
+          });
+        });
+      });
     });
   });
 };

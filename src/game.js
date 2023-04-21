@@ -31,7 +31,7 @@ export const game = (human, computer) => {
 
 
   // Randomly places ships on the human board
-  placeFleet(human.gameBoard);
+  // placeFleet(human.gameBoard);
   // Randomly places ships on the computer board
   placeFleet(computer.gameBoard);
 

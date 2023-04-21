@@ -4,6 +4,7 @@ export const Cell = (row, col) => {
   let isBombed = false;
   let section;
   let direction;
+  let draggedOver = false;
 
   const placeShip = (obj, index, dir) => {
     hasShip = true;
@@ -33,6 +34,12 @@ export const Cell = (row, col) => {
     },
     get isBombed() {
       return isBombed;
+    },
+    set draggedOver (value) {
+      draggedOver = value;
+    },
+    get draggedOver() {
+      return draggedOver;
     },
     placeShip,
     attack,

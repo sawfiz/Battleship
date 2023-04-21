@@ -113,15 +113,24 @@ main {
   background-color: red;
 }
 
+.draggedOver {
+  background-color: green;
+  z-index: 100;
+}
+
 .human-fleet-container {
   display: grid;
   grid-template-rows: 1fr 4fr 1fr 1fr;
 }
 
-.ship-container, .rotate-container, .rotate-btn {
+.ship-container, .place-ship, .rotate-container, .rotate-btn {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.place-ship {
+  font: 1em sans-serif;
 }
 
 .rotate-btn {
