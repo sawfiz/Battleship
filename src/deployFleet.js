@@ -33,6 +33,8 @@ const deployShip = (ship, human) => {
   );
   rotateContainer.appendChild(rotateBtn);
   humanFleetContainerEl.appendChild(rotateContainer);
+  const deployMsg = createElement('div', ['deploy-failed'])
+  humanFleetContainerEl.appendChild(deployMsg)
 
   // Button to toggle rotating of the ship
   rotateBtn.addEventListener('click', () => {
@@ -119,13 +121,15 @@ const deployShip = (ship, human) => {
     const onDragEnd = () => {
       // Todo: This does not seem to work
       // The intention is so that the ship does not zoom back once it is placed
-      
+
       const direction = rotated ? 'vertical' : 'horizontal';
+      // Check if a ship is successfully deployed
       if (human.gameBoard.placeShip(ship, startRow, startCol, direction)) {
         shipImage.remove();
         updateDisplay(human);
         resolve();
       } else {
+        deployMsg.innerText = 'Deployment failed!  Try again.'
         for (let i = 0; i < FLEET[ship].size; i++) {
           if (startRow + i < 10) {
             human.gameBoard.board[startRow + i][startCol].draggedOver = false;

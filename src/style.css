@@ -149,6 +149,14 @@ main {
   font-size: 1rem;
 }
 
+.deploy-failed {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: red;
+  font-weight: bold;
+}
+
 .turn {
   display: flex;
   justify-content: center;
