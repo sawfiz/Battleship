@@ -23,3 +23,7 @@ To Do:
   - Popup to ask user to deploy fleet
   - Popup to alert user to start playing game
   - Popup when game over
+
+  Credits:
+  - Background image, found from Google search, appears to be link to a YouTube channel, I do not have the source link
+  - SVG for ship, copied from https://github.com/fortypercenttitanium/battleship
