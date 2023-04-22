@@ -11,12 +11,26 @@
   padding: 0;
   box-sizing: border-box;
   /* border: 1px solid red; */
+  font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
 }
 
 body {
   height: 100vh;
   display: grid;
   grid-template-rows: 5rem auto 4rem 1rem;
+  background-image: url(./images/background.jpeg);
+  background-size: cover;
+}
+
+body::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.3);
+  filter: grayscale(50%);
 }
 
 h1 {
@@ -24,10 +38,12 @@ h1 {
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 10;
+  font-size: 3rem;
+  text-shadow: 4px 4px 8px rgba(255, 255, 255, 0.7);
 }
 
 main {
-  border: 1px solid red;
   display: grid;
   grid-template-columns: 17fr 33fr 33fr 17fr;
 }
@@ -37,7 +53,6 @@ main {
 }
 
 .computer-board-container, .human-board-container {
-  border: 1px solid red;
   display: flex;
   justify-content: center;
   align-items: center; 
@@ -47,8 +62,9 @@ main {
 .territory {
   position: absolute;
   top: 2rem;
-  font: 1.5em sans-serif;
+  font-size: 2em;
   font-weight: bold;
+  text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.3);
 }
 
 .enemy {
@@ -59,12 +75,7 @@ main {
   color: green;
 }
 
-.cheat-container {
-  position: absolute;
-  bottom: 2rem;
-  display: flex;
-  gap: 5px;
-}
+
 
 .human-fleet {
   border: 1px solid red;
@@ -75,6 +86,7 @@ main {
   grid-template-rows: repeat(10, 1fr);
   grid-template-columns: repeat(10, 1fr);
   gap: 1px;
+  background: white;
 }
 
 .cell {
@@ -120,9 +132,14 @@ main {
   background-color: red;
 }
 
-.human-fleet-container {
+.computer-fleet-container, .human-fleet-container {
   display: grid;
   grid-template-rows: 2fr 3fr 1fr 1fr;
+  background-color: lightgrey;
+  opacity: 0.8;
+  border-radius: 5px;
+  z-index: 10;
+  margin: 5rem 1rem 5rem 1rem;
 }
 
 .deploy-heading, .ship-container,  .rotate-container, .rotate-btn {
@@ -132,10 +149,11 @@ main {
 }
 
 .deploy-heading {
-  font: 1em sans-serif;
+  font-size: 1.2rem;
   font-weight: bold;
   padding: 2rem;
   text-align: center;
+  text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.7);
 }
 
 .ship-image {
@@ -143,10 +161,12 @@ main {
 }
 
 .rotate-btn {
-  width: 50%;
-  height: 50%;
+  padding: 0.5rem;
   cursor: pointer;
-  font-size: 1rem;
+  font-size: 1.2rem;
+  text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.7);
+  background-color: gray;
+  border-radius: 5px;
 }
 
 .deploy-failed {
@@ -155,32 +175,48 @@ main {
   align-items: center;
   color: red;
   font-weight: bold;
+  text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.7);
 }
 
 .turn {
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: top;
   font-size: 2rem;
   position: relative;
+  text-shadow: 1px 1px 2px red;
 }
 
 #random-deploy {
   position: absolute;
   right: 1vw;
   padding: 0.5rem;
-  font-size: 1rem;
+  font-size: 1.2rem;
+  text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.7);
   width: 15vw;
+  background-color: gray;
 }
 
 footer {
   display: flex;
   justify-content: center;
   align-items: center;
+  background-color: gray;
 }
 
 /* Toggle switch to show/hide enemy ships */
+.cheat-container {
+  position: absolute;
+  bottom: 2rem;
+  display: flex;
+  gap: 5px;
+}
 
+.cheat-container>p {
+  color: white;
+  font-weight: bold;
+  text-shadow: 1px 1px 2px black;
+}
 
 /* The size of the toggle switch */
 .toggle-switch {
@@ -206,7 +242,7 @@ footer {
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: #ccc;
+  background-color: black;
   transition: 0.4s;
 }
 

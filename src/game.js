@@ -6,8 +6,6 @@ export const game = (human, computer) => {
   let cheat = false;
   let turn = 0;
 
-  // Randomly places ships on the human board
-  // placeFleet(human.gameBoard);
   // Randomly places ships on the computer board
   placeFleet(computer.gameBoard);
 
