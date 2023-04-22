@@ -86,12 +86,12 @@ main {
   grid-template-rows: repeat(10, 1fr);
   grid-template-columns: repeat(10, 1fr);
   gap: 1px;
-  background: white;
+  background: lightblue;
 }
 
 .cell {
   position: relative;
-  background-color: blue;
+  background-color: darkblue;
   width: 3vw;
   height: 3vw;
   display: flex;
@@ -107,7 +107,7 @@ main {
 
 .show {
   opacity: 50;
-  background-color: lightblue;
+  background-color: steelblue;
 }
 
 .bomb {
@@ -178,13 +178,22 @@ main {
   text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.7);
 }
 
-.turn {
+.turn, .total-hits {
   display: flex;
   justify-content: center;
   align-items: top;
   font-size: 2rem;
   position: relative;
-  text-shadow: 1px 1px 2px red;
+  text-shadow: 1px 1px 2px gray;
+}
+
+.total-misses {
+  display: flex;
+  justify-content: center;
+  align-items: top;
+  font-size: 1.5rem;
+  position: relative;
+  text-shadow: 1px 1px 2px gray; 
 }
 
 #random-deploy {
@@ -213,9 +222,9 @@ footer {
 }
 
 .cheat-container>p {
-  color: white;
+  color: darkblue;
   font-weight: bold;
-  text-shadow: 1px 1px 2px black;
+  text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.5);
 }
 
 /* The size of the toggle switch */

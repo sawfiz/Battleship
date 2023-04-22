@@ -1,4 +1,4 @@
-import { updateDisplay, stopPlaying } from './dom';
+import { updateDisplay, updateTurn, updateScores, stopPlaying } from './dom';
 import delay from './delay';
 import { placeFleet } from './deployRandomly';
 
@@ -8,8 +8,10 @@ export const game = (human, computer) => {
 
   // Randomly places ships on the computer board
   placeFleet(computer.gameBoard);
-
+  
+  // Initialize game screen
   updateDisplay(human, computer, cheat);
+  updateScores(human, computer);
 
   // Wait for human player to go first
   // Human player places bombs onto computer's board
@@ -32,13 +34,14 @@ export const game = (human, computer) => {
     }
 
     turn++;
-    const turnEl = document.querySelector('.turn');
-    turnEl.innerHTML = '';
-    turnEl.innerText = `Turn: ${turn}`;
-
+    // Update turns on UI
+    updateTurn(turn);
+    
     // Attack the computer's gameBoard
     computer.gameBoard.receiveAttack(row, col);
     updateDisplay(human, computer, cheat);
+    updateScores(human, computer);
+
     // Check if it is the winning move
     if (computer.gameBoard.isGameOver()) {
       stopPlaying();

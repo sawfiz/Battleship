@@ -129,7 +129,7 @@ const deployShip = (ship, human) => {
         updateDisplay(human);
         resolve();
       } else {
-        deployMsg.innerText = 'Deployment failed!  Try again.'
+        deployMsg.innerText = 'Failed to deploy!  Try again.'
         for (let i = 0; i < FLEET[ship].size; i++) {
           if (startRow + i < 10) {
             human.gameBoard.board[startRow + i][startCol].draggedOver = false;
@@ -151,7 +151,7 @@ export const deployFleet = (human) => {
     const startGameMsg =() => {
       const turnEl = document.querySelector('.turn');
       turnEl.innerHTML = '';
-      turnEl.innerText = 'Start bombing the enemy waters, now!';
+      turnEl.innerText = 'Attack the enemy waters, now!';
     }
 
     const deployRandomBtn = document.querySelector('#random-deploy');

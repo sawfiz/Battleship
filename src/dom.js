@@ -75,6 +75,37 @@ const updateDisplay = (human, computer, cheat) => {
   }
 };
 
+const updateTurn = (turn) => {
+  const turnEl = document.querySelector('.turn');
+  turnEl.innerHTML = '';
+  turnEl.innerText = `Turn: ${turn}`;
+}
+
+const updateScores = (human, computer) => {
+  const computerFleetContainerEl = document.querySelector('.computer-fleet-container')
+  computerFleetContainerEl.innerHTML = ''
+  const div1 = createElement('div')
+  computerFleetContainerEl.appendChild(div1)
+  const computerHitsEl = createElement('div',['total-hits'])
+  computerHitsEl.innerText = `Hits: ${computer.gameBoard.totalHits}`
+  computerFleetContainerEl.appendChild(computerHitsEl)
+  const computerMissesEl = createElement('div', ['total-misses'])
+  computerMissesEl.innerText = `Misses: ${computer.gameBoard.totalMisses}`
+  computerFleetContainerEl.appendChild(computerMissesEl)
+
+  const humanFleetContainerEl = document.querySelector('.human-fleet-container')
+  humanFleetContainerEl.innerHTML = ''
+  const div2 = createElement('div')
+  humanFleetContainerEl.appendChild(div2)
+  const humanHitsEl = createElement('div',['total-hits'])
+  humanHitsEl.innerText = `Hits: ${human.gameBoard.totalHits}`
+  humanFleetContainerEl.appendChild(humanHitsEl)
+  const humanMissesEl = createElement('div', ['total-misses'])
+  humanMissesEl.innerText = `Misses: ${human.gameBoard.totalMisses}`
+  humanFleetContainerEl.appendChild(humanMissesEl) 
+
+}
+
 const stopPlaying = () => {
   // Todo: This does not seem to work
   const humanBoardEl = document.querySelector('#human-board');
@@ -82,4 +113,4 @@ const stopPlaying = () => {
   document.addEventListener('click', (e) => e.preventDefault());
 };
 
-export { updateDisplay, stopPlaying };
+export { updateDisplay, updateTurn, updateScores, stopPlaying };

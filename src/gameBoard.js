@@ -4,6 +4,8 @@ import { createShip } from './createShip';
 
 export const GameBoard = () => {
   let board;
+  let totalHits = 0;
+  let totalMisses = 0;
 
   const initBoard = () => {
     board = [];
@@ -86,8 +88,10 @@ export const GameBoard = () => {
       if (board[row][col].hasShip) {
         const ship = board[row][col].ship;
         ship.hit();
+        totalHits++;
         return 'hit';
       }
+      totalMisses++;
       return 'miss';
     }
   };
@@ -95,6 +99,12 @@ export const GameBoard = () => {
   return {
     get board() {
       return board;
+    },
+    get totalHits() {
+      return totalHits;
+    },
+    get totalMisses() {
+      return totalMisses;
     },
     initBoard,
     printBoard,
