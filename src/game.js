@@ -44,12 +44,18 @@ export const game = (human, computer) => {
 
     // Check if it is the winning move
     if (computer.gameBoard.isGameOver()) {
-      stopPlaying();
+      // Let computer makes one more move
+      human.getBombed();
+      updateDisplay(human, computer, cheat);
       await delay(500);
-      alert('Game Over, you won!');
+      // Check if it is the winning move
+      if (human.gameBoard.isGameOver()) {
+        alert('Game Over, tie!');
+      } else {
+        alert('Game Over, you won!');
+      }
+      stopPlaying();
     } else {
-      // This is a bit unfair. In case of a tie game, 
-      // the human wins as he/she is the first to move.
       // Computer bombs the human player board
       human.getBombed();
       updateDisplay(human, computer, cheat);
