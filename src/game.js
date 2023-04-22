@@ -61,9 +61,9 @@ export const game = (human, computer) => {
       updateDisplay(human, computer, cheat);
       // Check if it is the winning move
       if (human.gameBoard.isGameOver()) {
-        stopPlaying();
         await delay(500);
         alert('Game Over, you lost!');
+        stopPlaying();
       }
     }
   });

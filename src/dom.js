@@ -103,14 +103,13 @@ const updateScores = (human, computer) => {
   const humanMissesEl = createElement('div', ['total-misses'])
   humanMissesEl.innerText = `Misses: ${human.gameBoard.totalMisses}`
   humanFleetContainerEl.appendChild(humanMissesEl) 
-
 }
 
 const stopPlaying = () => {
-  // Todo: This does not seem to work
-  const humanBoardEl = document.querySelector('#human-board');
-  humanBoardEl.style.pointerEvents = 'none';
-  document.addEventListener('click', (e) => e.preventDefault());
+  // const humanBoardEl = document.querySelector('#human-board');
+  // humanBoardEl.style.pointerEvents = 'none';
+  // document.addEventListener('click', (e) => e.preventDefault());
+  location.reload()
 };
 
 export { updateDisplay, updateTurn, updateScores, stopPlaying };
