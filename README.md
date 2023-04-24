@@ -17,7 +17,11 @@ What I learned
 
 To Do:
 - When dragging a ship, if the ship has already been rotate, the image being dragged is still not turned
+-- Done.  Add rotated ship images.
 - After dragging a ship, the ship image zooms back to it's original location.  I want the dragged ship to disappar
+-- Done.  
+--- Add `event.preventDefault()` to `dragOver` handler
+--- Only refresh board if the ship is dragged to a new cell 
 - Disallow clicking once game over. 
 - Perhaps better UI
   - Popup to ask user to deploy fleet
