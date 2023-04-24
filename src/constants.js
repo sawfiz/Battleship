@@ -4,6 +4,12 @@ import cruiserImage from './images/cruiser.svg';
 import submarineImage from './images/submarine.svg';
 import destroyerImage from './images/destroyer.svg';
 
+import rotatedCarrierImage from './images/carrier-rotated.svg';
+import rotatedBattleshipImage from './images/battleship-rotated.svg';
+import rotatedCruiserImage from './images/cruiser-rotated.svg';
+import rotatedSubmarineImage from './images/submarine-rotated.svg';
+import rotatedDestroyerImage from './images/destroyer-rotated.svg';
+
 const BOARDSIZE = 10;
 
 const FLEET = {
@@ -22,5 +28,13 @@ const IMAGES = {
   destroyer: destroyerImage,
 };
 
+const ROTATEDIMAGES = {
+  carrier: rotatedCarrierImage,
+  battleship: rotatedBattleshipImage,
+  cruiser: rotatedCruiserImage,
+  submarine: rotatedSubmarineImage,
+  destroyer: rotatedDestroyerImage,
+};
 
-export {BOARDSIZE, FLEET, IMAGES}
+
+export {BOARDSIZE, FLEET, IMAGES, ROTATEDIMAGES}

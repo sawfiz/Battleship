@@ -1,5 +1,5 @@
 import createElement from './createElement';
-import { BOARDSIZE, FLEET, IMAGES } from './constants';
+import { BOARDSIZE, FLEET, IMAGES, ROTATEDIMAGES } from './constants';
 import { updateDisplay } from './dom';
 import { placeFleet } from './deployRandomly';
 
@@ -39,9 +39,11 @@ const deployShip = (ship, human) => {
   // Button to toggle rotating of the ship
   rotateBtn.addEventListener('click', () => {
     if (!rotated) {
-      shipImage.style.transform = 'rotate(90deg)';
+      // shipImage.style.transform = 'rotate(90deg)';
+      shipImage.src = ROTATEDIMAGES[ship];
     } else {
-      shipImage.style.transform = 'rotate(0deg)';
+      // shipImage.style.transform = 'rotate(0deg)';
+      shipImage.src = IMAGES[ship];
     }
     rotated = !rotated;
   });
