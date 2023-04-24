@@ -52,6 +52,7 @@ const deployShip = (ship, human) => {
     let rowOffset = 0;
     let colOffset = 0;
     let startRow, startCol;
+    let prevRow, prevCol;
 
     const onDragStart = () => {
       if (!rotated) {
@@ -75,53 +76,75 @@ const deployShip = (ship, human) => {
     };
 
     const onDragOver = (event) => {
+      // Need the following line to prevent the ship to zoom back to it's 
+      // original location after dragEnd
       event.preventDefault();
-      // Get the location and size of the board
-      const rect = humanBoardEl.getBoundingClientRect();
-      // The Grid is 10 x 10
-      const cellWidth = rect.width / BOARDSIZE;
-      const cellHeight = rect.width / BOARDSIZE;
-      const col = Math.floor((event.clientX - rect.left) / cellWidth);
-      const row = Math.floor((event.clientY - rect.top) / cellHeight);
 
-      if (!rotated) {
-        startCol = col - colOffset;
-        startRow = row < 0 ? 0 : row;
-        if (startCol < 0) startCol = 0;
-        if (startCol > 9 - FLEET[ship].size)
-          startCol = 9 - FLEET[ship].size + 1;
-        for (let i = 0; i < FLEET[ship].size; i++) {
-          if (startCol + i < 10) {
-            human.gameBoard.board[startRow][startCol + i].draggedOver = true;
-          }
-        }
-        updateDisplay(human);
-        for (let i = 0; i < FLEET[ship].size; i++) {
-          if (startCol + i < 10) {
-            human.gameBoard.board[startRow][startCol + i].draggedOver = false;
-          }
-        }
-      } else {
-        startCol = col < 0 ? 0 : col;
-        startRow = row - rowOffset < 0 ? 0 : row - rowOffset;
-        if (startRow < 0) startRow = 0;
-        if (startRow > 9 - FLEET[ship].size)
-          startRow = 9 - FLEET[ship].size + 1;
-        for (let i = 0; i < FLEET[ship].size; i++) {
-          if (startRow + i < 10) {
-            human.gameBoard.board[startRow + i][startCol].draggedOver = true;
-          }
-        }
-        updateDisplay(human);
-        for (let i = 0; i < FLEET[ship].size; i++) {
-          if (startRow + i < 10) {
-            human.gameBoard.board[startRow + i][startCol].draggedOver = false;
+      if (event.target.classList.contains('cell')) {
+        // Get the location and size of the board
+        const rect = humanBoardEl.getBoundingClientRect();
+        // The Grid is 10 x 10
+        const cellWidth = rect.width / BOARDSIZE;
+        const cellHeight = rect.width / BOARDSIZE;
+        const col = Math.floor((event.clientX - rect.left) / cellWidth);
+        const row = Math.floor((event.clientY - rect.top) / cellHeight);
+        if (row !== prevRow || col !== prevCol) {
+          // Only refresh the screen if the ship is dragged to a different cell
+          prevRow = row;
+          prevCol = col;
+
+          if (!rotated) {
+            startCol = col - colOffset;
+            startRow = row < 0 ? 0 : row;
+            if (startCol < 0) startCol = 0;
+            if (startCol > 9 - FLEET[ship].size)
+              startCol = 9 - FLEET[ship].size + 1;
+            for (let i = 0; i < FLEET[ship].size; i++) {
+              if (startCol + i < 10) {
+                human.gameBoard.board[startRow][
+                  startCol + i
+                ].draggedOver = true;
+              }
+            }
+            updateDisplay(human);
+            for (let i = 0; i < FLEET[ship].size; i++) {
+              if (startCol + i < 10) {
+                human.gameBoard.board[startRow][
+                  startCol + i
+                ].draggedOver = false;
+              }
+            }
+          } else {
+            startCol = col < 0 ? 0 : col;
+            startRow = row - rowOffset < 0 ? 0 : row - rowOffset;
+            if (startRow < 0) startRow = 0;
+            if (startRow > 9 - FLEET[ship].size)
+              startRow = 9 - FLEET[ship].size + 1;
+            for (let i = 0; i < FLEET[ship].size; i++) {
+              if (startRow + i < 10) {
+                human.gameBoard.board[startRow + i][
+                  startCol
+                ].draggedOver = true;
+              }
+            }
+            updateDisplay(human);
+            for (let i = 0; i < FLEET[ship].size; i++) {
+              if (startRow + i < 10) {
+                human.gameBoard.board[startRow + i][
+                  startCol
+                ].draggedOver = false;
+              }
+            }
           }
         }
       }
     };
 
-    const onDragEnd = () => {
+    const onDragEnd = (event) => {
+      console.log(
+        '🚀 ~ file: deployFleet.js:127 ~ onDragEnd ~ event:',
+        event.target
+      );
       // Todo: This does not seem to work
       // The intention is so that the ship does not zoom back once it is placed
 
@@ -131,7 +154,7 @@ const deployShip = (ship, human) => {
         // shipImage.remove();
         // shipImage.style.display = 'none';
         // shipImage.style.opacity = 0;
-        shipImage.style.visibility = 'hidden';
+        // shipImage.style.visibility = 'hidden';
         updateDisplay(human);
         resolve();
       } else {
