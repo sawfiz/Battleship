@@ -33,8 +33,8 @@ const deployShip = (ship, human) => {
   );
   rotateContainer.appendChild(rotateBtn);
   humanFleetContainerEl.appendChild(rotateContainer);
-  const deployMsg = createElement('div', ['deploy-failed'])
-  humanFleetContainerEl.appendChild(deployMsg)
+  const deployMsg = createElement('div', ['deploy-failed']);
+  humanFleetContainerEl.appendChild(deployMsg);
 
   // Button to toggle rotating of the ship
   rotateBtn.addEventListener('click', () => {
@@ -53,7 +53,7 @@ const deployShip = (ship, human) => {
     let colOffset = 0;
     let startRow, startCol;
 
-    const onDragStart = (event) => {
+    const onDragStart = () => {
       if (!rotated) {
         // The ship is horizontal
         shipImage.style.width = FLEET[ship].size * 3 + 'vw';
@@ -75,6 +75,7 @@ const deployShip = (ship, human) => {
     };
 
     const onDragOver = (event) => {
+      event.preventDefault();
       // Get the location and size of the board
       const rect = humanBoardEl.getBoundingClientRect();
       // The Grid is 10 x 10
@@ -127,17 +128,20 @@ const deployShip = (ship, human) => {
       const direction = rotated ? 'vertical' : 'horizontal';
       // Check if a ship is successfully deployed
       if (human.gameBoard.placeShip(ship, startRow, startCol, direction)) {
-        shipImage.remove();
+        // shipImage.remove();
+        // shipImage.style.display = 'none';
+        // shipImage.style.opacity = 0;
+        shipImage.style.visibility = 'hidden';
         updateDisplay(human);
         resolve();
       } else {
-        deployMsg.innerText = 'Failed to deploy!  Try again.'
+        deployMsg.innerText = 'Failed to deploy!  Try again.';
         for (let i = 0; i < FLEET[ship].size; i++) {
           if (startRow + i < 10) {
             human.gameBoard.board[startRow + i][startCol].draggedOver = false;
           }
           updateDisplay(human);
-        } 
+        }
       }
     };
 
@@ -149,12 +153,11 @@ const deployShip = (ship, human) => {
 
 export const deployFleet = (human) => {
   return new Promise((resolve) => {
-
-    const startGameMsg =() => {
+    const startGameMsg = () => {
       const turnEl = document.querySelector('.turn');
       turnEl.innerHTML = '';
       turnEl.innerText = 'Attack the enemy waters, now!';
-    }
+    };
 
     const deployRandomBtn = document.querySelector('#random-deploy');
     deployRandomBtn.addEventListener('click', () => {
